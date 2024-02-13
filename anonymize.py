@@ -222,9 +222,20 @@ def main() -> int:
         print(input_path, "is a directory without a DICOMDIR file")
         anonymiseDirectory(input_path, output_path);
     
+    # The input is a DICOM file
+    elif os.path.isfile(input_path):
+        print(input_path, "is a DICOM file")
+
+        # Open the file and anonymise it
+        instance = anonymiseImageFile(input_path, "REMOVED", "REMOVED", "99991231");
+
+        # Save anonymised file
+        instance.save_as(output_path);
+    
     # The input cannot be processed
     else:
         raise IOError(input_path + " exists but it is not a DICOMDIR file, nor a directory with DICOM image files.");
+
     return 0
 
 if __name__ == '__main__':
